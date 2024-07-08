@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miller Training Impact Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .button {
+            text-align: center;
+        }
+        .button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Miller Training Impact Calculator</h1>
+        <div class="input-group">
+            <label for="Tt">Time required for initial training (hours):</label>
+            <input type="number" id="Tt" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Ct">Cost of initial training per employee ($):</label>
+            <input type="number" id="Ct" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Ii">Incident impact (severity, scale 1-10):</label>
+            <input type="number" id="Ii" step="any" min="1" max="10">
+        </div>
+        <div class="input-group">
+            <label for="Ri">Time lost due to injury (hours):</label>
+            <input type="number" id="Ri" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Cr">Cost of replacement employee per hour ($):</label>
+            <input type="number" id="Cr" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Tr">Time required for replacement training (hours):</label>
+            <input type="number" id="Tr" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Cr_t">Cost of replacement training per hour ($):</label>
+            <input type="number" id="Cr_t" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Ti">Time required for incident-related training (hours):</label>
+            <input type="number" id="Ti" step="any">
+        </div>
+        <div class="input-group">
+            <label for="Ci">Cost of incident-related training per hour ($):</label>
+            <input type="number" id="Ci" step="any">
+        </div>
+        <div class="button">
+            <button onclick="calculate()">Calculate</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            const Tt = parseFloat(document.getElementById('Tt').value);
+            const Ct = parseFloat(document.getElementById('Ct').value);
+            const Ii = parseFloat(document.getElementById('Ii').value);
+            const Ri = parseFloat(document.getElementById('Ri').value);
+            const Cr = parseFloat(document.getElementById('Cr').value);
+            const Tr = parseFloat(document.getElementById('Tr').value);
+            const Cr_t = parseFloat(document.getElementById('Cr_t').value);
+            const Ti = parseFloat(document.getElementById('Ti').value);
+            const Ci = parseFloat(document.getElementById('Ci').value);
+
+            const TCNIT = (Ri * Cr * Ii) + (Tr * Cr_t) + (Ti * Ci);
+            const initialTrainingCost = Tt * Ct;
+            const result = `
+                Total Cost of No Initial Training (TCNIT): $${TCNIT.toFixed(2)}<br>
+                Initial Training Cost: $${initialTrainingCost.toFixed(2)}<br>
+                The cost of not having initial training is approximately ${(TCNIT / initialTrainingCost).toFixed(1)} times higher than the cost of providing initial training.
+            `;
+
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
